@@ -9,7 +9,46 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool estEnTrainDeChercher = false;
+  String selectedCategory = "Sneakers"; // Catégorie sélectionnée par défaut
   int selectedIndex = 0; // Onglet actif de la barre de navigation
+
+  // Fonction pour récuperer les titres par catégories
+  String getTitle() {
+    if (selectedCategory == "Basketball") return "Pro-Level Performance";
+    if (selectedCategory == "Gym Shoes") return "Train Without Fear";
+    if (selectedCategory == "Running") return "Speed Meets Endurance";
+    return "Style Meet Comfort";
+  }
+
+  // Fonction pour récupérer les sous-titres par catégorie
+   String getSubPhrase() {
+    if (selectedCategory == "Basketball") return "Designed for high jumps and quick cuts.";
+    if (selectedCategory == "Gym Shoes") return "Perfect stability for your heavy lifts.";
+    if (selectedCategory == "Running") return "Lightweight foam for long distance runs.";
+    return "Style Meet Comfort";
+  }
+
+  String getShoeImage() {
+	if (selectedCategory == "Basketball") return './images/basket_nike_air.png';
+    if (selectedCategory == "Gym Shoes") return './images/gym_nike_air.png';
+    if (selectedCategory == "Running") return './images/running_nike_air.png';
+    return './images/nike_air.png';
+  }
+
+  String getShoeModel() {
+	if (selectedCategory == "Basketball") return "LEBRON 21";
+    if (selectedCategory == "Gym Shoes") return "METCON 9";
+    if (selectedCategory == "Running") return "PEGASUS 40";
+    return "AIR JORDAN 1";
+  }
+
+  String getShoeDescription() {
+	if (selectedCategory == "Basketball") return "EP DRAGON";
+    if (selectedCategory == "Gym Shoes") return "TRAINING SHOES";
+    if (selectedCategory == "Running") return "ROAD RUNNING";
+    return "LOW RETRO OG";
+  }
+
   @override
   Widget build(BuildContext context) {
     // Rendre dynamique le bouton de recherche
@@ -78,11 +117,11 @@ class _HomePageState extends State<HomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-			buildNavItem(Icons.home_filled, 0),
-			buildNavItem(Icons.search, 1),
-			buildNavItem(Icons.favorite_border, 2),
-			buildNavItem(Icons.person_outline, 3),
-		  ],
+            buildNavItem(Icons.home_filled, 0),
+            buildNavItem(Icons.search, 1),
+            buildNavItem(Icons.favorite_border, 2),
+            buildNavItem(Icons.person_outline, 3),
+          ],
         ),
       ),
 
@@ -142,21 +181,53 @@ class _HomePageState extends State<HomePage> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      categoryItem("Sneakers", isSelected: true),
-                      categoryItem("Basketball"),
-                      categoryItem("Gym Shoes"),
-                      categoryItem("Running"),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedCategory = "Sneakers";
+                          });
+                        },
+                        child: categoryItem("Sneakers",isSelected: selectedCategory == "Sneakers"),
+                      ),
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedCategory = "Basketball";
+                          });
+                        },
+                        child: categoryItem("Basketball", isSelected: selectedCategory == "Basketball"),
+                      ),
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedCategory = "Gym Shoes";
+                          });
+                        },
+                        child: categoryItem("Gym Shoes", isSelected: selectedCategory == "Gym Shoes"),
+                      ),
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedCategory = "Running";
+                          });
+                        },
+                        child: categoryItem("Running", isSelected: selectedCategory == "Running"),
+                      ),
                     ],
                   ),
                 ),
 
                 const SizedBox(height: 30),
 
+                // Les titres
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "Style Meet Comfort",
+                    Text(
+                      getTitle(),
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
@@ -188,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 8),
 
                 Text(
-                  "Nike sneakers offer ultimate comfort.",
+                  getSubPhrase(),
                   style: TextStyle(color: Colors.grey[500], fontSize: 14),
                 ),
 
@@ -219,7 +290,7 @@ class _HomePageState extends State<HomePage> {
                       top: 5,
                       child: Container(
                         height: 240,
-                        width: 350,
+                        width: 300,
                         decoration: BoxDecoration(
                           color: const Color(0xFFF6E5B3).withOpacity(0.7),
                           borderRadius: BorderRadius.circular(30),
@@ -265,7 +336,7 @@ class _HomePageState extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "AIR JORDAN 1",
+                                  getShoeModel(),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -274,7 +345,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
 
                                 Text(
-                                  "LOW RETRO OG",
+                                  getShoeDescription(),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -290,8 +361,8 @@ class _HomePageState extends State<HomePage> {
 
                     // L'image de la chaussure
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Image.asset('./images/nike_air.png', height: 180),
+                      padding: const EdgeInsets.only(bottom: 0),
+                      child: Image.asset(getShoeImage(), height: 180),
                     ),
 
                     // Texte central

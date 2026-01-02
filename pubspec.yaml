@@ -63,6 +63,9 @@ flutter:
   assets:
     - images/profile.png
     - images/nike_air.png
+    - images/basket_nike_air.png
+    - images/gym_nike_air.png
+    - images/running_nike_air.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
