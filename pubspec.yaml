@@ -62,10 +62,34 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/profile.png
+    - images/Air_Jordan_1.png
     - images/nike_air.png
+    - images/nike_jordan.png
     - images/basket_nike_air.png
     - images/gym_nike_air.png
-    - images/running_nike_air.png
+    - images/gym_nike_air2.png
+    - images/Run_nike_air.png
+    - images/Air Jordan 4 SB Pine Green.png
+    - images/AIR_JORDAN_1_MID_SE_WMNS.png
+    - images/Jordan 1 Mid ‘Midnight Navy_Football Grey’ _ Color_ Blue_White.png
+    - images/Jordan 4 Retro ‘Military Black’ _ Color_ Black _ Size_ Various.png
+    - images/Jordan Off-White 4 Sneakers _ Color_ Cream _ Size.png
+    - images/Nike Air Jordan 4 Retro Military Black.png
+    - images/Air Force 1.png
+    - images/Air Jordan Ones.png
+    - images/Jordan Air 1 Special.png
+    - images/Jordan Men's Sneakers.png
+    - images/Nike Basketball Shoes SportChek.png
+    - images/Green Color Block Custom Air Force.png
+    - images/Nike Air Force 1.png
+    - images/Sabrina 3 _Blueprint Basketball Shoes.png
+    - images/Basketball Shoes.png
+    - images/Nike Running Shoes.png
+    - images/NIKE V2K RUN.png
+    - images/Nike Sportswear Womens V2K Run.png
+    - images/Nike V5 RNR Sneaker.png
+    - images/Nike Initiator.png
+    - images/Nike V5 RNR Shoes.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'shoe.dart';
+import 'category_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,29 +23,32 @@ class _HomePageState extends State<HomePage> {
   }
 
   // Fonction pour récupérer les sous-titres par catégorie
-   String getSubPhrase() {
-    if (selectedCategory == "Basketball") return "Designed for high jumps and quick cuts.";
-    if (selectedCategory == "Gym Shoes") return "Perfect stability for your heavy lifts.";
-    if (selectedCategory == "Running") return "Lightweight foam for long distance runs.";
+  String getSubPhrase() {
+    if (selectedCategory == "Basketball")
+      return "Designed for high jumps and quick cuts.";
+    if (selectedCategory == "Gym Shoes")
+      return "Perfect stability for your heavy lifts.";
+    if (selectedCategory == "Running")
+      return "Lightweight foam for long distance runs.";
     return "Style Meet Comfort";
   }
 
   String getShoeImage() {
-	if (selectedCategory == "Basketball") return './images/basket_nike_air.png';
+    if (selectedCategory == "Basketball") return './images/basket_nike_air.png';
     if (selectedCategory == "Gym Shoes") return './images/gym_nike_air.png';
-    if (selectedCategory == "Running") return './images/running_nike_air.png';
-    return './images/nike_air.png';
+    if (selectedCategory == "Running") return './images/Run_nike_air.png';
+    return './images/Air_Jordan_1.png';
   }
 
   String getShoeModel() {
-	if (selectedCategory == "Basketball") return "LEBRON 21";
+    if (selectedCategory == "Basketball") return "LEBRON 21";
     if (selectedCategory == "Gym Shoes") return "METCON 9";
     if (selectedCategory == "Running") return "PEGASUS 40";
     return "AIR JORDAN 1";
   }
 
   String getShoeDescription() {
-	if (selectedCategory == "Basketball") return "EP DRAGON";
+    if (selectedCategory == "Basketball") return "EP DRAGON";
     if (selectedCategory == "Gym Shoes") return "TRAINING SHOES";
     if (selectedCategory == "Running") return "ROAD RUNNING";
     return "LOW RETRO OG";
@@ -187,7 +192,10 @@ class _HomePageState extends State<HomePage> {
                             selectedCategory = "Sneakers";
                           });
                         },
-                        child: categoryItem("Sneakers",isSelected: selectedCategory == "Sneakers"),
+                        child: categoryItem(
+                          "Sneakers",
+                          isSelected: selectedCategory == "Sneakers",
+                        ),
                       ),
 
                       GestureDetector(
@@ -196,7 +204,10 @@ class _HomePageState extends State<HomePage> {
                             selectedCategory = "Basketball";
                           });
                         },
-                        child: categoryItem("Basketball", isSelected: selectedCategory == "Basketball"),
+                        child: categoryItem(
+                          "Basketball",
+                          isSelected: selectedCategory == "Basketball",
+                        ),
                       ),
 
                       GestureDetector(
@@ -205,7 +216,10 @@ class _HomePageState extends State<HomePage> {
                             selectedCategory = "Gym Shoes";
                           });
                         },
-                        child: categoryItem("Gym Shoes", isSelected: selectedCategory == "Gym Shoes"),
+                        child: categoryItem(
+                          "Gym Shoes",
+                          isSelected: selectedCategory == "Gym Shoes",
+                        ),
                       ),
 
                       GestureDetector(
@@ -214,7 +228,10 @@ class _HomePageState extends State<HomePage> {
                             selectedCategory = "Running";
                           });
                         },
-                        child: categoryItem("Running", isSelected: selectedCategory == "Running"),
+                        child: categoryItem(
+                          "Running",
+                          isSelected: selectedCategory == "Running",
+                        ),
                       ),
                     ],
                   ),
@@ -235,23 +252,34 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
 
-                    Column(
-                      children: [
-                        Text(
-                          "View All",
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w500,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CategoryPage(category: selectedCategory),
                           ),
-                        ),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          Text(
+                            "View All",
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
 
-                        // Le trait de soulignement sous View All
-                        Container(
-                          height: 2,
-                          width: 30,
-                          color: Colors.grey[500],
-                        ),
-                      ],
+                          // Le trait de soulignement sous View All
+                          Container(
+                            height: 2,
+                            width: 30,
+                            color: Colors.grey[500],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -361,8 +389,15 @@ class _HomePageState extends State<HomePage> {
 
                     // L'image de la chaussure
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 0),
-                      child: Image.asset(getShoeImage(), height: 180),
+                      padding: const EdgeInsets.only(bottom: 0, left: 20),
+                      child: Transform.rotate(
+                        angle: 0.4,
+                        child: Image.asset(
+                          getShoeImage(),
+                          height: 180,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
 
                     // Texte central
