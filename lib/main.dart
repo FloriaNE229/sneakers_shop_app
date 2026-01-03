@@ -1,22 +1,28 @@
-
-import 'package:flutter/material.dart'; 
-import 'package:flutter/services.dart';   
-
-
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'home.dart';
 
-
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Nike App',
-      home: home(),  // Page de démarrage
+      home: Home(),
     );
   }
 }

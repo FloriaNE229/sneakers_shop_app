@@ -1,40 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'product_details.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-// Mon application Nike
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Home(),
-    );
-  }
-}
-
-// La page d'accueil
+/// Page d'accueil
 class Home extends StatelessWidget {
+  const Home({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // Mettre la barre de statut transparente
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-      ),
-    );
-
     return Scaffold(
-      backgroundColor: Color(0xFFE8E8E8),
-      
-      // Tout le contenu de la page
+      backgroundColor: const Color(0xFFE8E8E8),
       body: Center(
         child: Container(
-          // Taille d'un iPhone
           width: 390,
           height: 844,
           decoration: BoxDecoration(
@@ -42,9 +18,9 @@ class Home extends StatelessWidget {
             borderRadius: BorderRadius.circular(40),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
                 blurRadius: 30,
-                offset: Offset(0, 10),
+                offset: const Offset(0, 10),
               ),
             ],
           ),
@@ -54,165 +30,166 @@ class Home extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    // Barre de statut (heure, wifi, batterie)
+                    // Status bar fake
                     Container(
                       height: 44,
-                      color: Color(0xFFFAFAFA),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '9:41',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                              ),
+                      color: const Color(0xFFFAFAFA),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            '9:41',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Row(
-                              children: [
-                                Icon(Icons.signal_cellular_4_bar, size: 16),
-                                SizedBox(width: 5),
-                                Icon(Icons.wifi, size: 16),
-                                SizedBox(width: 5),
-                                Icon(Icons.battery_full, size: 20),
-                              ],
-                            ),
-                          ],
-                        ),
+                          ),
+                          Row(
+                            children: [
+                              Icon(Icons.signal_cellular_4_bar, size: 16),
+                              SizedBox(width: 5),
+                              Icon(Icons.wifi, size: 16),
+                              SizedBox(width: 5),
+                              Icon(Icons.battery_full, size: 20),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    
-                    // Le contenu qui défile
+
                     Expanded(
-                      child: Container(
-                        color: Color(0xFFFAFAFA),
-                        child: SingleChildScrollView(
-                          physics: BouncingScrollPhysics(),
-                          child: Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // En haut : photo de profil et icône de recherche
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    // Photo de profil ronde avec icône
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.grey[300],
-                                      ),
-                                      child: Icon(
-                                        Icons.person,
-                                        color: Colors.grey[700],
-                                        size: 28,
-                                      ),
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Top icons
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 25,
+                                    backgroundColor: Colors.grey[300],
+                                    child: Icon(
+                                      Icons.person,
+                                      color: Colors.grey[700],
                                     ),
-                                    // Bouton recherche avec ombre
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withOpacity(0.08),
-                                            blurRadius: 8,
-                                            offset: Offset(0, 2),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Icon(Icons.search, color: Colors.grey, size: 20),
+                                  ),
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black
+                                              .withValues(alpha: 0.08),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                
-                                SizedBox(height: 30),
-                                
-                                // Le titre principal (partie normale + partie en gras)
-                                Text.rich(
-                                  TextSpan(
-                                    style: TextStyle(fontSize: 32, height: 1.3),
-                                    children: [
-                                      TextSpan(
-                                        text: 'Experience ',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w300,
-                                          color: Color(0xFF333333),
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: 'the Ultimate Shopping With Nike!',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
+                                    child: const Icon(Icons.search,
+                                        color: Colors.grey),
                                   ),
-                                ),
-                                
-                                SizedBox(height: 25),
-                                
-                                // Les catégories (Sneakers, Basketball, etc.)
-                                SizedBox(
-                                  height: 45,
-                                  child: ListView(
-                                    scrollDirection: Axis.horizontal,
-                                    physics: BouncingScrollPhysics(),
-                                    children: [
-                                      _buildCategory('Sneakers', true),
-                                      _buildCategory('Basketball', false),
-                                      _buildCategory('Gym Shoes', false),
-                                      _buildCategory('Soccer', false),
-                                    ],
-                                  ),
-                                ),
-                                
-                                SizedBox(height: 30),
-                                
-                                // Titre de section
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                ],
+                              ),
+
+                              const SizedBox(height: 30),
+
+                              // Title
+                              const Text.rich(
+                                TextSpan(
+                                  style: TextStyle(fontSize: 32, height: 1.3),
                                   children: [
-                                    Text(
-                                      'Style Meets Comfort',
+                                    TextSpan(
+                                      text: 'Experience ',
                                       style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w300,
+                                        color: Color(0xFF333333),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          'the Ultimate Shopping With Nike!',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
                                         color: Colors.black,
                                       ),
                                     ),
-                                    Text(
-                                      'View All',
-                                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                                    ),
                                   ],
                                 ),
-                                
-                                SizedBox(height: 8),
-                                
-                                // Sous-titre
-                                Text(
-                                  'Nike sneakers offer ultimate comfort.',
-                                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                              ),
+
+                              const SizedBox(height: 25),
+
+                              // Categories
+                              SizedBox(
+                                height: 45,
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  physics: const BouncingScrollPhysics(),
+                                  children: const [
+                                    CategoryChip(
+                                        text: 'Sneakers', active: true),
+                                    CategoryChip(
+                                        text: 'Basketball', active: false),
+                                    CategoryChip(
+                                        text: 'Gym Shoes', active: false),
+                                    CategoryChip(text: 'Soccer', active: false),
+                                  ],
                                 ),
-                                
-                                SizedBox(height: 20),
-                                
-                                // La carte qui contient la chaussure
-                                Container(
+                              ),
+
+                              const SizedBox(height: 30),
+
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Text(
+                                    'Style Meets Comfort',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    'View All',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              const Text(
+                                'Nike sneakers offer ultimate comfort.',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+
+                              const SizedBox(height: 20),
+
+                              // ✅ CARTE CLIQUABLE → ouvre Details()
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const Details(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
                                   height: 320,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
-                                    gradient: LinearGradient(
+                                    gradient: const LinearGradient(
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
@@ -221,13 +198,12 @@ class Home extends StatelessWidget {
                                         Color(0xFFF4E8D0),
                                         Color(0xFFF4E8D0),
                                       ],
-                                      stops: [0.0, 0.5, 0.5, 1.0],
+                                      stops: [0, 0.5, 0.5, 1],
                                     ),
                                   ),
                                   child: Stack(
                                     children: [
-                                      // Texte NIKE en arrière-plan (en blanc maintenant)
-                                      Center(
+                                      const Center(
                                         child: Text(
                                           'NIKE',
                                           style: TextStyle(
@@ -238,8 +214,6 @@ class Home extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      
-                                      // L'image de la chaussure (tournée)
                                       Center(
                                         child: Transform.rotate(
                                           angle: -0.4,
@@ -247,13 +221,40 @@ class Home extends StatelessWidget {
                                             width: 280,
                                             height: 280,
                                             decoration: BoxDecoration(
-                                              color: Colors.white.withOpacity(0.1),
-                                              borderRadius: BorderRadius.circular(20),
+                                              color: Colors.white.withValues(
+                                                  alpha: 0.1),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
                                             ),
-                                            child: Icon(
-                                              Icons.add_photo_alternate_outlined,
+                                            child: const Icon(
+                                              Icons
+                                                  .add_photo_alternate_outlined,
                                               size: 60,
                                               color: Colors.white54,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: 16,
+                                        top: 16,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 6,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.black
+                                                .withValues(alpha: 0.15),
+                                            borderRadius:
+                                                BorderRadius.circular(999),
+                                          ),
+                                          child: const Text(
+                                            'Tap',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
                                         ),
@@ -261,18 +262,18 @@ class Home extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                
-                                SizedBox(height: 90),
-                              ],
-                            ),
+                              ),
+
+                              const SizedBox(height: 90),
+                            ],
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
-                
-                // Le menu du bas (positionné par-dessus)
+
+                // Bottom navigation (UI)
                 Positioned(
                   bottom: 20,
                   left: 20,
@@ -284,19 +285,19 @@ class Home extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 20,
-                          offset: Offset(0, 5),
+                          offset: const Offset(0, 5),
                         ),
                       ],
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        _buildNavItem(Icons.home, true),
-                        _buildNavItem(Icons.search, false),
-                        _buildNavItem(Icons.favorite_border, false),
-                        _buildNavItem(Icons.person_outline, false),
+                        NavItem(icon: Icons.home, active: true),
+                        NavItem(icon: Icons.search),
+                        NavItem(icon: Icons.favorite_border),
+                        NavItem(icon: Icons.person_outline),
                       ],
                     ),
                   ),
@@ -308,40 +309,61 @@ class Home extends StatelessWidget {
       ),
     );
   }
-  
-  // Fonction pour créer une catégorie
-  Widget _buildCategory(String text, bool isActive) {
+}
+
+/// Category widget
+class CategoryChip extends StatelessWidget {
+  final String text;
+  final bool active;
+
+  const CategoryChip({
+    super.key,
+    required this.text,
+    this.active = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 12),
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+      margin: const EdgeInsets.only(right: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
       decoration: BoxDecoration(
-        color: isActive ? Color(0xFFF4E8D0) : Colors.white,
+        color: active ? const Color(0xFFF4E8D0) : Colors.white,
         borderRadius: BorderRadius.circular(25),
       ),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: isActive ? Color(0xFF8B7355) : Colors.grey[600],
-          ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          color: active ? const Color(0xFF8B7355) : Colors.grey[600],
         ),
       ),
     );
   }
-  
-  // Fonction pour créer un bouton de navigation
-  Widget _buildNavItem(IconData icon, bool isActive) {
+}
+
+/// Navigation item
+class NavItem extends StatelessWidget {
+  final IconData icon;
+  final bool active;
+
+  const NavItem({
+    super.key,
+    required this.icon,
+    this.active = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: isActive ? Color(0xFFF4E8D0) : Colors.transparent,
+        color: active ? const Color(0xFFF4E8D0) : Colors.transparent,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Icon(
         icon,
-        color: isActive ? Color(0xFF8B7355) : Colors.grey,
+        color: active ? const Color(0xFF8B7355) : Colors.grey,
         size: 24,
       ),
     );
