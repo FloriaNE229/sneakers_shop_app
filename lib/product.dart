@@ -43,128 +43,129 @@ class _ProductPageState extends State<ProductPage> {
             borderRadius: BorderRadius.circular(40),
             child: Stack(
               children: [
-                Column(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Color(0xFF6B5D41), Color(0xFF6B5D41), Color(0xFFF4E8D0), Color(0xFFF4E8D0)],
-                            stops: [0.0, 0.5, 0.5, 1.0],
-                          ),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 10,
-                              left: 20,
-                              right: 20,
-                              child: SizedBox(
-                                height: 44,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text('9:41', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white)),
-                                    Row(
-                                      children: const [
-                                        Icon(Icons.signal_cellular_4_bar, size: 16, color: Colors.white),
-                                        SizedBox(width: 5),
-                                        Icon(Icons.wifi, size: 16, color: Colors.white),
-                                        SizedBox(width: 5),
-                                        Icon(Icons.battery_full, size: 20, color: Colors.white),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 70,
-                              left: 20,
-                              right: 20,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () => Navigator.pop(context),
-                                    child: Container(
-                                      width: 45,
-                                      height: 45,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                      ),
-                                      child: const Icon(Icons.arrow_back, size: 24, color: Colors.black),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 45,
-                                    height: 45,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white,
-                                    ),
-                                    child: const Icon(Icons.favorite_border, size: 24, color: Colors.black),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Center(
-                              child: Text(
-                                'NIKE',
-                                style: TextStyle(
-                                  fontSize: 180,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white.withValues(alpha: 0.15),
-                                  letterSpacing: -10,
-                                ),
-                              ),
-                            ),
-                            Center(
-                              child: Transform.rotate(
-                                angle: -0.4,
-                                child: Container(
-                                  width: 300,
-                                  height: 300,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Icon(Icons.add_photo_alternate_outlined, size: 60, color: Colors.white54),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 50,
-                              bottom: 300,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text('AIR JORDAN 1', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 0.5)),
-                                  SizedBox(height: 8),
-                                  Text('X TRAVIS SCOTT', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 0.5)),
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                              right: 50,
-                              bottom: 320,
-                              child: const Text('LOW RETRO OG', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 0.5)),
-                            ),
-                          ],
-                        ),
+                // La partie du haut avec dégradé
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 440,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF6B5D41), Color(0xFF6B5D41), Color(0xFFF4E8D0), Color(0xFFF4E8D0)],
+                        stops: [0.0, 0.5, 0.5, 1.0],
                       ),
                     ),
-                  ],
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 10,
+                          left: 20,
+                          right: 20,
+                          child: SizedBox(
+                            height: 44,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Text('9:41', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white)),
+                                Row(
+                                  children: [
+                                    Icon(Icons.signal_cellular_4_bar, size: 16, color: Colors.white),
+                                    SizedBox(width: 5),
+                                    Icon(Icons.wifi, size: 16, color: Colors.white),
+                                    SizedBox(width: 5),
+                                    Icon(Icons.battery_full, size: 20, color: Colors.white),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 70,
+                          left: 20,
+                          right: 20,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () => Navigator.pop(context),
+                                child: Container(
+                                  width: 45,
+                                  height: 45,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                  ),
+                                  child: const Icon(Icons.arrow_back, size: 24, color: Colors.black),
+                                ),
+                              ),
+                              Container(
+                                width: 45,
+                                height: 45,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                ),
+                                child: const Icon(Icons.favorite_border, size: 24, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Center(
+                          child: Text(
+                            'NIKE',
+                            style: TextStyle(
+                              fontSize: 140,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white.withValues(alpha: 0.15),
+                              letterSpacing: -8,
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: Transform.rotate(
+                            angle: -0.3,
+                            child: Container(
+                              width: 280,
+                              height: 280,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Icon(Icons.add_photo_alternate_outlined, size: 60, color: Colors.white54),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 40,
+                          bottom: 30,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text('AIR JORDAN 1', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 1)),
+                              SizedBox(height: 6),
+                              Text('X TRAVIS SCOTT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 1)),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          right: 40,
+                          bottom: 30,
+                          child: const Text('LOW RETRO OG', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 1)),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Positioned(
                   bottom: 0,
                   left: 0,
                   right: 0,
                   child: Container(
-                    height: 420,
+                    height: 440,
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
@@ -275,33 +276,45 @@ class _ProductPageState extends State<ProductPage> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 55,
-                                  decoration: BoxDecoration(color: const Color(0xFFF4E8D0), borderRadius: BorderRadius.circular(20)),
-                                  child: const Center(child: Text('Start', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF8B7355)))),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const CartPage()));
-                                  },
+                          Container(
+                            height: 55,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF5F5F5),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
                                   child: Container(
-                                    height: 55,
+                                    margin: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(color: const Color(0xFFE0E0E0)),
+                                      color: const Color(0xFFF4E8D0),
+                                      borderRadius: BorderRadius.circular(18),
                                     ),
-                                    child: const Center(child: Text('Place To Bag', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF333333)))),
+                                    child: const Center(
+                                      child: Text('Start', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF8B7355))),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const CartPage()));
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(18),
+                                      ),
+                                      child: const Center(
+                                        child: Text('Place To Bag', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -315,4 +328,4 @@ class _ProductPageState extends State<ProductPage> {
       ),
     );
   }
-}
+} 
