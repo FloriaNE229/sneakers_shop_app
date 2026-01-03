@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'panier.dart';
 
+List<Product> favoriteProducts = [];
+
 class ProductPage extends StatefulWidget {
   final Product product;
   
@@ -14,6 +16,15 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   String selectedSize = '6Y';
   int selectedTab = 0;
+  String selectedColor = 'brown';
+  bool showColorPicker = false;
+  bool isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = favoriteProducts.contains(widget.product);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +54,6 @@ class _ProductPageState extends State<ProductPage> {
             borderRadius: BorderRadius.circular(40),
             child: Stack(
               children: [
-                // La partie du haut avec dégradé
                 Positioned(
                   top: 0,
                   left: 0,
@@ -102,14 +112,31 @@ class _ProductPageState extends State<ProductPage> {
                                   child: const Icon(Icons.arrow_back, size: 24, color: Colors.black),
                                 ),
                               ),
-                              Container(
-                                width: 45,
-                                height: 45,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (isFavorite) {
+                                      favoriteProducts.remove(widget.product);
+                                      isFavorite = false;
+                                    } else {
+                                      favoriteProducts.add(widget.product);
+                                      isFavorite = true;
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  width: 45,
+                                  height: 45,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                  ),
+                                  child: Icon(
+                                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                                    size: 24,
+                                    color: isFavorite ? Colors.red : Colors.black,
+                                  ),
                                 ),
-                                child: const Icon(Icons.favorite_border, size: 24, color: Colors.black),
                               ),
                             ],
                           ),
@@ -201,25 +228,32 @@ class _ProductPageState extends State<ProductPage> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                                  decoration: BoxDecoration(color: const Color(0xFFF5F5F5), borderRadius: BorderRadius.circular(15)),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 24,
-                                        height: 24,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: const Color(0xFF6B5D41),
-                                          border: Border.all(color: Colors.white, width: 2),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      showColorPicker = !showColorPicker;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                                    decoration: BoxDecoration(color: const Color(0xFFF5F5F5), borderRadius: BorderRadius.circular(15)),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 24,
+                                          height: 24,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: _getColorValue(selectedColor),
+                                            border: Border.all(color: Colors.white, width: 2),
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text('Colors', style: TextStyle(fontSize: 14)),
-                                      const SizedBox(width: 10),
-                                      const Text('▼', style: TextStyle(fontSize: 10, color: Colors.grey)),
-                                    ],
+                                        const SizedBox(width: 10),
+                                        const Text('Colors', style: TextStyle(fontSize: 14)),
+                                        const SizedBox(width: 10),
+                                        Text(showColorPicker ? '▲' : '▼', style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 15),
@@ -247,6 +281,25 @@ class _ProductPageState extends State<ProductPage> {
                               ],
                             ),
                           ),
+                          if (showColorPicker) ...[
+                            const SizedBox(height: 15),
+                            Container(
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF5F5F5),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  _buildColorOption('brown', const Color(0xFF6B5D41)),
+                                  _buildColorOption('black', Colors.black),
+                                  _buildColorOption('white', Colors.white),
+                                  _buildColorOption('red', Colors.red),
+                                ],
+                              ),
+                            ),
+                          ],
                           const SizedBox(height: 20),
                           Row(
                             children: ['Description', 'Pickup', 'Details', 'Reviews'].asMap().entries.map((entry) {
@@ -285,14 +338,21 @@ class _ProductPageState extends State<ProductPage> {
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: Container(
-                                    margin: const EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFF4E8D0),
-                                      borderRadius: BorderRadius.circular(18),
-                                    ),
-                                    child: const Center(
-                                      child: Text('Start', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF8B7355))),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text('Start clicked!')),
+                                      );
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFF4E8D0),
+                                        borderRadius: BorderRadius.circular(18),
+                                      ),
+                                      child: const Center(
+                                        child: Text('Start', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF8B7355))),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -328,4 +388,43 @@ class _ProductPageState extends State<ProductPage> {
       ),
     );
   }
-} 
+
+  Widget _buildColorOption(String colorName, Color color) {
+    final isSelected = selectedColor == colorName;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedColor = colorName;
+          showColorPicker = false;
+        });
+      },
+      child: Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color,
+          border: Border.all(
+            color: isSelected ? Colors.black : Colors.grey[300]!,
+            width: isSelected ? 3 : 1,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Color _getColorValue(String colorName) {
+    switch (colorName) {
+      case 'brown':
+        return const Color(0xFF6B5D41);
+      case 'black':
+        return Colors.black;
+      case 'white':
+        return Colors.white;
+      case 'red':
+        return Colors.red;
+      default:
+        return const Color(0xFF6B5D41);
+    }
+  }
+}

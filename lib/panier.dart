@@ -124,7 +124,7 @@ class _CartPageState extends State<CartPage> {
               children: [
                 Container(
                   height: 44,
-                  color: const Color(0xFFFAFAFA),
+                  color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
@@ -146,7 +146,7 @@ class _CartPageState extends State<CartPage> {
                 ),
                 Expanded(
                   child: Container(
-                    color: const Color(0xFFF5F5F5),
+                    color: Colors.white,
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       child: Padding(
@@ -156,80 +156,100 @@ class _CartPageState extends State<CartPage> {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text('Cart', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Colors.black)),
-                                Icon(Icons.delete_outline, color: Color(0xFFFF6B6B), size: 24),
+                              children: [
+                                GestureDetector(
+                                  onTap: () => Navigator.pop(context),
+                                  child: const Icon(Icons.arrow_back, color: Colors.black, size: 24),
+                                ),
+                                const Text('Cart', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black)),
+                                const Icon(Icons.delete_outline, color: Color(0xFFFF6B6B), size: 24),
                               ],
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 30),
                             ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: cartItems.length,
                               itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 20),
-                                  child: Row(
+                                return Container(
+                                  margin: const EdgeInsets.only(bottom: 20),
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFF5F5F5),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Column(
                                     children: [
-                                      SizedBox(
-                                        width: 150,
-                                        height: 150,
-                                        child: GridView.count(
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 8,
-                                          mainAxisSpacing: 8,
-                                          physics: const NeverScrollableScrollPhysics(),
-                                          children: List.generate(4, (i) {
-                                            return Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(15),
-                                                color: const Color(0xFFE0E0E0),
-                                              ),
-                                              child: const Icon(Icons.image, size: 30, color: Colors.white),
-                                            );
-                                          }),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 15),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(cartItems[index].product.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
-                                            const SizedBox(height: 5),
-                                            Text('\$${cartItems[index].product.price.toInt()}', style: const TextStyle(fontSize: 14, color: Colors.grey)),
-                                            const SizedBox(height: 15),
-                                            Row(
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: 120,
+                                            height: 120,
+                                            child: GridView.count(
+                                              crossAxisCount: 2,
+                                              crossAxisSpacing: 8,
+                                              mainAxisSpacing: 8,
+                                              physics: const NeverScrollableScrollPhysics(),
+                                              children: List.generate(4, (i) {
+                                                return Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    color: Colors.white,
+                                                  ),
+                                                  child: const Icon(Icons.image, size: 25, color: Color(0xFFE0E0E0)),
+                                                );
+                                              }),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 15),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    if (cartItems[index].quantity > 1) {
-                                                      setState(() => cartItems[index].quantity--);
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    width: 28,
-                                                    height: 28,
-                                                    decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                                                    child: const Icon(Icons.remove, color: Colors.black, size: 16),
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 15),
-                                                Text('0${cartItems[index].quantity}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
-                                                const SizedBox(width: 15),
-                                                GestureDetector(
-                                                  onTap: () => setState(() => cartItems[index].quantity++),
-                                                  child: Container(
-                                                    width: 28,
-                                                    height: 28,
-                                                    decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF8B7355)),
-                                                    child: const Icon(Icons.add, color: Colors.white, size: 16),
-                                                  ),
-                                                ),
+                                                Text(cartItems[index].product.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+                                                const SizedBox(height: 5),
+                                                Text('\$${cartItems[index].product.price.toInt()}', style: const TextStyle(fontSize: 14, color: Colors.grey)),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 15),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (cartItems[index].quantity > 1) {
+                                                setState(() => cartItems[index].quantity--);
+                                              }
+                                            },
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white,
+                                              ),
+                                              child: const Icon(Icons.remove, color: Colors.black, size: 18),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 20),
+                                          Text('0${cartItems[index].quantity}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+                                          const SizedBox(width: 20),
+                                          GestureDetector(
+                                            onTap: () => setState(() => cartItems[index].quantity++),
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Color(0xFF8B7355),
+                                              ),
+                                              child: const Icon(Icons.add, color: Colors.white, size: 18),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -248,20 +268,28 @@ class _CartPageState extends State<CartPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text('Subtotal:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black)),
-                                Text('\$${subtotal.toStringAsFixed(2)}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black)),
+                                const Text('Subtotal:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black)),
+                                Text('\$${subtotal.toStringAsFixed(2)}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black)),
                               ],
                             ),
                             const SizedBox(height: 30),
-                            Container(
-                              width: double.infinity,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF4E8D0),
-                                borderRadius: BorderRadius.circular(25),
-                                boxShadow: [BoxShadow(color: const Color(0xFFF4E8D0).withValues(alpha: 0.4), blurRadius: 15, offset: const Offset(0, 5))],
+                            GestureDetector(
+                              onTap: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Checkout!')),
+                                );
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                height: 55,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFF4E8D0),
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                child: const Center(
+                                  child: Text('Checkout', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF8B7355))),
+                                ),
                               ),
-                              child: const Center(child: Text('Checkout', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF8B7355)))),
                             ),
                           ],
                         ),
