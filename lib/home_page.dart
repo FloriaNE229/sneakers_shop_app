@@ -79,10 +79,12 @@ class HomePage extends StatelessWidget {
                                       height: 50,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        image: const DecorationImage(
-                                          image: NetworkImage('https://i.pravatar.cc/100'),
-                                          fit: BoxFit.cover,
-                                        ),
+                                        color: Colors.grey[300],
+                                      ),
+                                      child: Icon(
+                                        Icons.person,
+                                        color: Colors.grey[700],
+                                        size: 28,
                                       ),
                                     ),
                                     Container(
@@ -192,7 +194,7 @@ class HomePage extends StatelessWidget {
                                                   style: TextStyle(
                                                     fontSize: 120,
                                                     fontWeight: FontWeight.w900,
-                                                    color: Colors.white.withValues(alpha: 0.15),
+                                                    color: Colors.white.withValues(alpha: 0.15), // Changé de Colors.white à 0.15 de transparence
                                                     letterSpacing: -5,
                                                   ),
                                                 ),
