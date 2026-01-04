@@ -199,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('${categories[_selectedCategory]} Collection', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black)),
+                            Text('${categories[_selectedCategory]} Meets Comfort', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black)),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
