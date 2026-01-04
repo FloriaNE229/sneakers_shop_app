@@ -156,14 +156,14 @@ class _ProductPageState extends State<ProductPage> {
                         Center(
                           child: Transform.rotate(
                             angle: -0.3,
-                            child: Container(
-                              width: 280,
-                              height: 280,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(20),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.asset(
+                                widget.product.imageUrl,
+                                width: 280,
+                                height: 280,
+                                fit: BoxFit.contain,
                               ),
-                              child: const Icon(Icons.add_photo_alternate_outlined, size: 60, color: Colors.white54),
                             ),
                           ),
                         ),

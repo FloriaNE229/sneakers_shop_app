@@ -252,14 +252,14 @@ class _HomePageState extends State<HomePage> {
                                 Center(
                                   child: Transform.rotate(
                                     angle: -0.4,
-                                    child: Container(
-                                      width: 280,
-                                      height: 280,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withValues(alpha: 0.1),
-                                        borderRadius: BorderRadius.circular(20),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.asset(
+                                        products[_selectedCategory].imageUrl,
+                                        width: 280,
+                                        height: 280,
+                                        fit: BoxFit.contain,
                                       ),
-                                      child: const Icon(Icons.add_photo_alternate_outlined, size: 60, color: Colors.white54),
                                     ),
                                   ),
                                 ),
@@ -425,7 +425,13 @@ class _HomePageState extends State<HomePage> {
                                     color: const Color(0xFFF5F5F5),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: const Icon(Icons.shopping_bag, color: Colors.grey),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.asset(
+                                      product.imageUrl,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(width: 15),
                                 Expanded(
@@ -700,8 +706,12 @@ class ViewAllPage extends StatelessWidget {
                                               colors: [Color(0xFF5C4A34), Color(0xFFE8D5B7)],
                                             ),
                                           ),
-                                          child: const Center(
-                                            child: Icon(Icons.add_photo_alternate_outlined, size: 40, color: Colors.white54),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(20),
+                                            child: Image.asset(
+                                              products[index].imageUrl,
+                                              fit: BoxFit.contain,
+                                            ),
                                           ),
                                         ),
                                       ),

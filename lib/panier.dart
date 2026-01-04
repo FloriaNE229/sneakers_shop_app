@@ -35,7 +35,7 @@ List<Product> getAllProducts() {
       price: 120,
       colors: ['Olive', 'Cream'],
       sizes: ['5Y', '5.5Y', '6Y', '6.5Y'],
-      imageUrl: 'assets/images/jordan1_olive.png',
+      imageUrl: 'assets/images/travis_scott_air_jordan_1_low_reverse_mocha_1.webp',
       description: 'Every Jordan Retro is a classic sneaker done up in new colors and textures for a fresh look. With smooth leather, this iteration gives little feet stand out style. Plus, premium materials',
     ),
     Product(
@@ -46,7 +46,7 @@ List<Product> getAllProducts() {
       price: 120,
       colors: ['Red', 'White'],
       sizes: ['5Y', '5.5Y', '6Y', '6.5Y'],
-      imageUrl: 'assets/images/jordan1_chicago.png',
+      imageUrl: 'assets/images/travis_scott_air_jordan_1_low_reverse_mocha_1.webp',
       description: 'The classic Chicago colorway brings iconic style to your feet. Premium materials and timeless design make this a must-have.',
     ),
     Product(
@@ -57,7 +57,7 @@ List<Product> getAllProducts() {
       price: 130,
       colors: ['Black', 'White', 'Red'],
       sizes: ['5Y', '5.5Y', '6Y', '6.5Y'],
-      imageUrl: 'assets/images/jordan1_blacktoe.png',
+      imageUrl: 'assets/images/travis_scott_air_jordan_1_low_reverse_mocha_1.webp',
       description: 'The Black Toe design combines classic elements with modern comfort. Perfect for any sneaker collection.',
     ),
   ];
@@ -224,7 +224,13 @@ class _CartPageState extends State<CartPage> {
                                                           borderRadius: BorderRadius.circular(12),
                                                           color: Colors.white,
                                                         ),
-                                                        child: const Icon(Icons.image, size: 25, color: Color(0xFFE0E0E0)),
+                                                        child: ClipRRect(
+                                                          borderRadius: BorderRadius.circular(12),
+                                                          child: Image.asset(
+                                                            cartItems[index].product.imageUrl,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
                                                       );
                                                     }),
                                                   ),
