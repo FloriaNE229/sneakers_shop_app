@@ -19,6 +19,7 @@ class _ProductPageState extends State<ProductPage> {
   String selectedColor = 'brown';
   bool showColorPicker = false;
   bool isFavorite = false;
+  bool isExpanded = false;
 
   @override
   void initState() {
@@ -64,7 +65,7 @@ class _ProductPageState extends State<ProductPage> {
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [Color(0xFF6B5D41), Color(0xFF6B5D41), Color(0xFFF4E8D0), Color(0xFFF4E8D0)],
+                        colors: [Color(0xFF5C4A34), Color(0xFF5C4A34), Color(0xFFE8D5B7), Color(0xFFE8D5B7)],
                         stops: [0.0, 0.5, 0.5, 1.0],
                       ),
                     ),
@@ -292,7 +293,7 @@ class _ProductPageState extends State<ProductPage> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  _buildColorOption('brown', const Color(0xFF6B5D41)),
+                                  _buildColorOption('brown', const Color(0xFF5C4A34)),
                                   _buildColorOption('black', Colors.black),
                                   _buildColorOption('white', Colors.white),
                                   _buildColorOption('red', Colors.red),
@@ -319,13 +320,23 @@ class _ProductPageState extends State<ProductPage> {
                             }).toList(),
                           ),
                           const SizedBox(height: 15),
-                          Text.rich(
-                            TextSpan(
-                              style: const TextStyle(fontSize: 13, color: Colors.grey, height: 1.6),
-                              children: [
-                                TextSpan(text: widget.product.description),
-                                const TextSpan(text: '...Read', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600)),
-                              ],
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isExpanded = !isExpanded;
+                              });
+                            },
+                            child: Text.rich(
+                              TextSpan(
+                                style: const TextStyle(fontSize: 13, color: Colors.grey, height: 1.6),
+                                children: [
+                                  TextSpan(text: isExpanded ? widget.product.description + ' This is the full description with all the details about the product. Premium materials and craftsmanship ensure lasting quality and comfort.' : widget.product.description),
+                                  TextSpan(
+                                    text: isExpanded ? ' ...Read Less' : ' ...Read More',
+                                    style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           const SizedBox(height: 20),
@@ -347,11 +358,11 @@ class _ProductPageState extends State<ProductPage> {
                                     child: Container(
                                       margin: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFFF4E8D0),
+                                        color: const Color(0xFFE8D5B7),
                                         borderRadius: BorderRadius.circular(18),
                                       ),
                                       child: const Center(
-                                        child: Text('Start', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF8B7355))),
+                                        child: Text('Start', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF5C4A34))),
                                       ),
                                     ),
                                   ),
@@ -359,7 +370,21 @@ class _ProductPageState extends State<ProductPage> {
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const CartPage()));
+                                      bool productExists = false;
+                                      for (var item in cartItems) {
+                                        if (item.product.id == widget.product.id) {
+                                          item.quantity++;
+                                          productExists = true;
+                                          break;
+                                        }
+                                      }
+                                      if (!productExists) {
+                                        cartItems.add(CartItem(product: widget.product, quantity: 1));
+                                      }
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const CartPage()),
+                                      );
                                     },
                                     child: Container(
                                       margin: const EdgeInsets.all(4),
@@ -416,7 +441,7 @@ class _ProductPageState extends State<ProductPage> {
   Color _getColorValue(String colorName) {
     switch (colorName) {
       case 'brown':
-        return const Color(0xFF6B5D41);
+        return const Color(0xFF5C4A34);
       case 'black':
         return Colors.black;
       case 'white':
@@ -424,7 +449,7 @@ class _ProductPageState extends State<ProductPage> {
       case 'red':
         return Colors.red;
       default:
-        return const Color(0xFF6B5D41);
+        return const Color(0xFF5C4A34);
     }
   }
 }

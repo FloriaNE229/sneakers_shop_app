@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                                   margin: const EdgeInsets.only(right: 12),
                                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                                   decoration: BoxDecoration(
-                                    color: isActive ? const Color(0xFFF4E8D0) : Colors.white,
+                                    color: isActive ? const Color(0xFFE8D5B7) : Colors.white,
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   child: Center(
@@ -186,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        color: isActive ? const Color(0xFF8B7355) : Colors.grey[600],
+                                        color: isActive ? const Color(0xFF5C4A34) : Colors.grey[600],
                                       ),
                                     ),
                                   ),
@@ -232,7 +232,7 @@ class _HomePageState extends State<HomePage> {
                               gradient: const LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
-                                colors: [Color(0xFF6B5D41), Color(0xFF6B5D41), Color(0xFFF4E8D0), Color(0xFFF4E8D0)],
+                                colors: [Color(0xFF5C4A34), Color(0xFF5C4A34), Color(0xFFE8D5B7), Color(0xFFE8D5B7)],
                                 stops: [0.0, 0.5, 0.5, 1.0],
                               ),
                             ),
@@ -491,14 +491,14 @@ class _HomePageState extends State<HomePage> {
                         height: 100,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Color(0xFFF4E8D0),
+                          color: Color(0xFFE8D5B7),
                         ),
-                        child: const Icon(Icons.person, size: 50, color: Color(0xFF8B7355)),
+                        child: const Icon(Icons.person, size: 50, color: Color(0xFF5C4A34)),
                       ),
                       const SizedBox(height: 20),
                       const Text('Floriane', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Colors.black)),
                       const SizedBox(height: 5),
-                      const Text('floriane.@email.com', style: TextStyle(fontSize: 14, color: Colors.grey)),
+                      const Text('floriane@email.com', style: TextStyle(fontSize: 14, color: Colors.grey)),
                       const SizedBox(height: 30),
                       _buildProfileOption(Icons.shopping_bag, 'Mes commandes'),
                       _buildProfileOption(Icons.location_on, 'Adresses'),
@@ -536,7 +536,7 @@ class _HomePageState extends State<HomePage> {
               shape: BoxShape.circle,
               color: Color(0xFFF5F5F5),
             ),
-            child: Icon(icon, color: const Color(0xFF8B7355), size: 22),
+            child: Icon(icon, color: const Color(0xFF5C4A34), size: 22),
           ),
           const SizedBox(width: 15),
           Expanded(
@@ -584,10 +584,10 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isActive ? const Color(0xFFF4E8D0) : Colors.transparent,
+          color: isActive ? const Color(0xFFE8D5B7) : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Icon(icon, color: isActive ? const Color(0xFF8B7355) : Colors.grey, size: 24),
+        child: Icon(icon, color: isActive ? const Color(0xFF5C4A34) : Colors.grey, size: 24),
       ),
     );
   }
@@ -697,7 +697,7 @@ class ViewAllPage extends StatelessWidget {
                                             gradient: const LinearGradient(
                                               begin: Alignment.topLeft,
                                               end: Alignment.bottomRight,
-                                              colors: [Color(0xFF6B5D41), Color(0xFFF4E8D0)],
+                                              colors: [Color(0xFF5C4A34), Color(0xFFE8D5B7)],
                                             ),
                                           ),
                                           child: const Center(
