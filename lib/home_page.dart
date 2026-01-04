@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'shoe.dart';
 import 'category_page.dart';
 
 class HomePage extends StatefulWidget {

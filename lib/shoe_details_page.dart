@@ -10,11 +10,32 @@ class ShoeDetailsPage extends StatefulWidget {
 }
 
 class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
+  late Shoe currentShoe; // Variable pour gérer l'état actuel de la page
   bool isFavorite = false;
   int selectedTab = 0;
 
+  // Variables par défaut pour la couleur et la taille choisies par l'utilisateur
+  String selectedSize = "5Y";
+
+  @override
+  void initState() {
+    // Au chargement des variants la chaussure affichée est celle transmise par la liste
+    currentShoe = widget.shoe;
+  }
+
+  // Liste des tailles disponibles
+  List<String> shoeSizes = ["5Y", "5.5Y", "6Y", "6.5Y"];
+
   @override
   Widget build(BuildContext context) {
+    // On récupère toutes les chaussure du même modèle
+    List<Shoe> variants = [];
+
+    for (var shoeVariant in allShoes) {
+      if (shoeVariant.model == widget.shoe.model) {
+        variants.add(shoeVariant);
+      }
+    }
     // Gestion de l'icône de favoris
     IconData favoriteIcon = Icons.favorite_border;
     Color favoriteColor = Colors.black54;
@@ -34,8 +55,8 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
                 Container(
                   height: 450,
                   width: double.infinity,
-                  decoration: const BoxDecoration(
-                    gradient: const LinearGradient(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
                       colors: [Color(0xFF7B6132), Color(0xFFF6E5B3)],
                       stops: [0.5, 0.5],
                       begin: Alignment.topLeft,
@@ -97,7 +118,7 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
                   child: Transform.rotate(
                     angle: 0.4,
                     child: Image.asset(
-                      widget.shoe.image,
+                      currentShoe.image,
                       height: 180,
                       fit: BoxFit.contain,
                     ),
@@ -175,7 +196,7 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
               offset: const Offset(0, -30),
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
+                padding: EdgeInsets.fromLTRB(25, 25, 25, 25),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(50)),
@@ -237,8 +258,8 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
                         // Les couleurs
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
+                            horizontal: 5,
+                            vertical: 4,
                           ),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -247,37 +268,53 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
                           ),
                           child: Row(
                             children: [
-                              Container(
-                                width: 25,
-                                height: 25,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFF7B6132),
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-
-                              const SizedBox(width: 8),
-
                               Text(
-                                "Colors",
+                                "Colors :",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,
                                   color: Colors.grey[500],
                                 ),
                               ),
-                              Icon(Icons.keyboard_arrow_down, size: 16),
+
+                              const SizedBox(width: 15),
+
+                              for (var variant in variants)
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      currentShoe = variant; // On change la chaussure affichée
+                                    });
+                                  },
+
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 8),
+                                    padding: EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: currentShoe == variant ? Colors.black : Colors.transparent,
+                                        width: 2,
+                                      ),
+                                    ),
+
+                                    child: CircleAvatar(
+                                      backgroundColor: variant.shoeColor, // La couleur de la variante
+                                      radius: 12,
+                                    ),
+                                  ),
+                                ),
                             ],
                           ),
                         ),
 
-                        const SizedBox(width: 12),
+                        const SizedBox(width: 8),
 
                         // Les tailles
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
+                            horizontal: 5,
+                            vertical: 4,
                           ),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -308,14 +345,25 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
 
                               const SizedBox(width: 10),
 
-                              Text(
-                                "5Y  5.5Y  6Y  6.5Y",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                  color: Colors.grey[500],
-                                ),
-                              ),
+                              for(var size in shoeSizes)
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedSize = size; // On change la taille sélectionnée
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                                    child: Text(
+                                      size,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                        color: selectedSize == size ? Colors.black : Colors.grey[500],
+                                      ),
+                                    ),
+                                  ),
+                                )
                             ],
                           ),
                         ),
@@ -339,14 +387,20 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
                                 "Description",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: selectedTab == 0 ? Colors.black : Colors.grey.shade400,
+                                  color: selectedTab == 0
+                                      ? Colors.black
+                                      : Colors.grey.shade400,
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              if(selectedTab == 0)
-                                Container(width: 50, height: 2, color: Colors.black,)
+                              if (selectedTab == 0)
+                                Container(
+                                  width: 50,
+                                  height: 2,
+                                  color: Colors.black,
+                                ),
                             ],
-                          )
+                          ),
                         ),
 
                         GestureDetector(
@@ -361,14 +415,20 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
                                 "Pickup",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: selectedTab == 1 ? Colors.black : Colors.grey.shade400,
+                                  color: selectedTab == 1
+                                      ? Colors.black
+                                      : Colors.grey.shade400,
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              if(selectedTab == 1)
-                                Container(width: 50, height: 2, color: Colors.black,)
+                              if (selectedTab == 1)
+                                Container(
+                                  width: 50,
+                                  height: 2,
+                                  color: Colors.black,
+                                ),
                             ],
-                          )
+                          ),
                         ),
 
                         GestureDetector(
@@ -383,14 +443,20 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
                                 "Details",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: selectedTab == 2 ? Colors.black : Colors.grey.shade400,
+                                  color: selectedTab == 2
+                                      ? Colors.black
+                                      : Colors.grey.shade400,
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              if(selectedTab == 2)
-                                Container(width: 50, height: 2, color: Colors.black,)
+                              if (selectedTab == 2)
+                                Container(
+                                  width: 50,
+                                  height: 2,
+                                  color: Colors.black,
+                                ),
                             ],
-                          )
+                          ),
                         ),
 
                         GestureDetector(
@@ -405,14 +471,20 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
                                 "Reviews",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: selectedTab == 3 ? Colors.black : Colors.grey.shade400,
+                                  color: selectedTab == 3
+                                      ? Colors.black
+                                      : Colors.grey.shade400,
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              if(selectedTab == 3)
-                                Container(width: 50, height: 2, color: Colors.black,)
+                              if (selectedTab == 3)
+                                Container(
+                                  width: 50,
+                                  height: 2,
+                                  color: Colors.black,
+                                ),
                             ],
-                          )
+                          ),
                         ),
                       ],
                     ),
@@ -457,7 +529,7 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
                               ),
                             ),
                           ),
-                        ], 
+                        ],
                       ),
                     ),
                   ],
