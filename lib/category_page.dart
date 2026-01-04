@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sneakers_shop_app/shoe_details_page.dart';
 import 'shoe.dart';
 
 class CategoryPage extends StatelessWidget {
@@ -141,7 +142,7 @@ class _ShoeCardState extends State<ShoeCard> {
                           const SizedBox(height: 4),
 
                           Text(
-                            "\$${widget.shoe.price} FCFA",
+                            "\$${widget.shoe.price}",
                             style: const TextStyle(
                               color: Colors.white70,
                               fontWeight: FontWeight.w500,
@@ -155,7 +156,15 @@ class _ShoeCardState extends State<ShoeCard> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ShoeDetailsPage(shoe: widget.shoe),
+                                    ),
+                                  );
+                                },
                                 child: Row(
                                   children: const [
                                     Icon(
@@ -181,7 +190,11 @@ class _ShoeCardState extends State<ShoeCard> {
                                     isFavorite = !isFavorite;
                                   });
                                 },
-                                child: Icon(favoriteIcon, color: favoriteColor, size: 20),
+                                child: Icon(
+                                  favoriteIcon,
+                                  color: favoriteColor,
+                                  size: 20,
+                                ),
                               ),
                             ],
                           ),
