@@ -200,7 +200,17 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('${categories[_selectedCategory]} Collection', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black)),
-                            const Text('View All', style: TextStyle(fontSize: 14, color: Colors.grey)),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ViewAllPage(category: categories[_selectedCategory]),
+                                  ),
+                                );
+                              },
+                              child: const Text('View All', style: TextStyle(fontSize: 14, color: Colors.grey)),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 8),
@@ -471,8 +481,34 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: Container(
                 color: const Color(0xFFFAFAFA),
-                child: const Center(
-                  child: Text('Page de profil', style: TextStyle(fontSize: 16, color: Colors.grey)),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFF4E8D0),
+                        ),
+                        child: const Icon(Icons.person, size: 50, color: Color(0xFF8B7355)),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text('Floriane', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Colors.black)),
+                      const SizedBox(height: 5),
+                      const Text('floriane.@email.com', style: TextStyle(fontSize: 14, color: Colors.grey)),
+                      const SizedBox(height: 30),
+                      _buildProfileOption(Icons.shopping_bag, 'Mes commandes'),
+                      _buildProfileOption(Icons.location_on, 'Adresses'),
+                      _buildProfileOption(Icons.payment, 'Moyens de paiement'),
+                      _buildProfileOption(Icons.settings, 'Paramètres'),
+                      _buildProfileOption(Icons.help_outline, 'Aide'),
+                      _buildProfileOption(Icons.logout, 'Déconnexion'),
+                      const SizedBox(height: 90),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -480,6 +516,35 @@ class _HomePageState extends State<HomePage> {
         ),
         _buildBottomNav(),
       ],
+    );
+  }
+
+  Widget _buildProfileOption(IconData icon, String title) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 45,
+            height: 45,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xFFF5F5F5),
+            ),
+            child: Icon(icon, color: const Color(0xFF8B7355), size: 22),
+          ),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black)),
+          ),
+          const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+        ],
+      ),
     );
   }
 
@@ -523,6 +588,148 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Icon(icon, color: isActive ? const Color(0xFF8B7355) : Colors.grey, size: 24),
+      ),
+    );
+  }
+}
+
+class ViewAllPage extends StatelessWidget {
+  final String category;
+  
+  const ViewAllPage({super.key, required this.category});
+
+  @override
+  Widget build(BuildContext context) {
+    final products = getAllProducts();
+    
+    return Scaffold(
+      backgroundColor: const Color(0xFFE8E8E8),
+      body: Center(
+        child: Container(
+          width: 390,
+          height: 844,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(40),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.2),
+                blurRadius: 30,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(40),
+            child: Column(
+              children: [
+                Container(
+                  height: 44,
+                  color: const Color(0xFFFAFAFA),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('9:41', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black)),
+                        Row(
+                          children: const [
+                            Icon(Icons.signal_cellular_4_bar, size: 16, color: Colors.black),
+                            SizedBox(width: 5),
+                            Icon(Icons.wifi, size: 16, color: Colors.black),
+                            SizedBox(width: 5),
+                            Icon(Icons.battery_full, size: 20, color: Colors.black),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    color: const Color(0xFFFAFAFA),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () => Navigator.pop(context),
+                                child: const Icon(Icons.arrow_back, color: Colors.black, size: 24),
+                              ),
+                              const SizedBox(width: 15),
+                              Text('$category Collection', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black)),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: GridView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 15,
+                              childAspectRatio: 0.75,
+                            ),
+                            itemCount: products.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProductPage(product: products[index]),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(20),
+                                            gradient: const LinearGradient(
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                              colors: [Color(0xFF6B5D41), Color(0xFFF4E8D0)],
+                                            ),
+                                          ),
+                                          child: const Center(
+                                            child: Icon(Icons.add_photo_alternate_outlined, size: 40, color: Colors.white54),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(products[index].name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                                            Text('\$${products[index].price.toInt()}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
