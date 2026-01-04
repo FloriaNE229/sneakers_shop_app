@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'shoe.dart';
+import 'cart_page.dart';
 
 class ShoeDetailsPage extends StatefulWidget {
   final Shoe shoe;
@@ -499,7 +500,40 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
                     const SizedBox(height: 40),
 
                     // Bouton Panier
-                    Container(
+                    GestureDetector(
+                      onTap: (){
+                        // On crée l'article avec la chaussure
+                        CartItem newArticle = CartItem(shoe: currentShoe, quantity: 1);
+
+                        // Ajout à la liste des futurs achats
+                        setState(() {
+                          myCart.add(newArticle);
+                        });
+
+                        // Affichage d'une confirmation visuelle
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("${currentShoe.model} add to bag"),
+                            backgroundColor: Colors.black,
+                            duration: Duration(seconds: 2),
+                            action: SnackBarAction(
+                              label: "see",
+                              textColor: const Color(0xFFF6E5B3),
+                              onPressed: () {
+                                // Navigation vers la page Panier
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const CartPage(),
+                                  ),
+                                );
+                              }
+                            ),
+                          ),
+                        );
+                      },
+                    
+                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(
                         color: Colors.grey[100],
@@ -532,12 +566,13 @@ class _ShoeDetailsPageState extends State<ShoeDetailsPage> {
                         ],
                       ),
                     ),
+                   ), 
                   ],
                 ),
-              ),
+              ), 
             ),
           ],
-        ),
+        ), 
       ),
     );
   }
