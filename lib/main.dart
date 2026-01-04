@@ -1,121 +1,261 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'models.dart';
+import 'widgets.dart';
+import 'home_detail_screens.dart';
+import 'cart_search_screens.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+  runApp(const NikeApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// Application principale
+class NikeApp extends StatelessWidget {
+  const NikeApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: AppRoot(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+// Racine de l'application avec gestion d'état
+class AppRoot extends StatefulWidget {
+  const AppRoot({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<AppRoot> createState() => _AppRootState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _AppRootState extends State<AppRoot> {
+  // Navigation
+  int view = 0;
+  bool searchOpen = false;
 
-  void _incrementCounter() {
+  // Produits et panier
+  String category = "Sneakers";
+  Product? current;
+  String search = "";
+  String selectedSize = "5Y";
+  Color selectedColor = const Color(0xFF6B5D3F);
+  final cart = <CartItem>[];
+  Map<String, bool> likedProducts = {};
+
+  final products = [
+    Product(
+      name: "Air Jordan 1",
+      price: 120,
+      category: "Sneakers",
+      subtitle: "Low Retro OG",
+      description:
+          "Every Jordan Retro is a classic sneaker done up in new colors and textures for a fresh look. With smooth leather, this iteration gives little feet stand out style. Plus, premium materials...Read",
+      image: "assets/shoe.png",
+      sizes: ["5Y", "5.5Y", "6Y", "6.5Y"],
+      colors: [
+        Color(0xFF6B5D3F),
+        Color(0xFFE8E8E8),
+        Color(0xFF2C2C2C),
+      ],
+    ),
+    Product(
+      name: "Air Max 97",
+      price: 180,
+      category: "Basketball",
+      subtitle: "Retro Edition",
+      description: "Classic design with modern comfort for the court.",
+      image: "assets/shoe.png",
+      sizes: ["5Y", "5.5Y", "6Y", "6.5Y"],
+      colors: [Color(0xFFE74C3C), Color(0xFF000000), Color(0xFFFFFFFF)],
+    ),
+    Product(
+      name: "Metcon 8",
+      price: 150,
+      category: "Gym Shoes",
+      subtitle: "Training Shoes",
+      description: "Built for intense training sessions.",
+      image: "assets/shoe.png",
+      sizes: ["5Y", "5.5Y", "6Y", "6.5Y"],
+      colors: [Color(0xFF3498DB), Color(0xFF95A5A6), Color(0xFF000000)],
+    ),
+    Product(
+      name: "Mercurial Vapor",
+      price: 200,
+      category: "Soccer",
+      subtitle: "15 Elite",
+      description: "Speed and precision for the pitch.",
+      image: "assets/shoe.png",
+      sizes: ["5Y", "5.5Y", "6Y", "6.5Y"],
+      colors: [Color(0xFF27AE60), Color(0xFFF39C12), Color(0xFFFFFFFF)],
+    ),
+  ];
+
+  // Ajoute un produit au panier
+  void addToCart(Product p) {
+    final found = cart.where((c) =>
+        c.product.name == p.name &&
+        c.size == selectedSize &&
+        c.color == selectedColor);
+    if (found.isNotEmpty) {
+      found.first.qty++;
+    } else {
+      cart.add(CartItem(p, 1, selectedSize, selectedColor));
+    }
+    setState(() {});
+  }
+
+  // Change la quantité d'un article
+  void changeQty(CartItem item, int delta) {
+    item.qty += delta;
+    if (item.qty <= 0) cart.remove(item);
+    setState(() {});
+  }
+
+  // Calcule le sous-total
+  double getSubtotal() {
+    return cart.fold(0.0, (s, i) => s + (i.product.price * i.qty).toDouble());
+  }
+
+  // Retourne les frais de livraison
+  double getDelivery() {
+    return cart.isEmpty ? 0.0 : 13.0;
+  }
+
+  void _goToHome() => setState(() => view = 0);
+
+  void _goToDetail(Product product) {
+    current = product;
+    setState(() => view = 1);
+  }
+
+  void _goToCart() => setState(() => view = 2);
+
+  void _openSearch() => setState(() => searchOpen = true);
+
+  void _closeSearch() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      searchOpen = false;
+      search = "";
     });
+  }
+
+  void _changeCategory(String newCategory) {
+    setState(() => category = newCategory);
+  }
+
+  void _changeSearch(String value) {
+    setState(() => search = value);
+  }
+
+  void _toggleLike(String productName) {
+    setState(() {
+      likedProducts[productName] = !(likedProducts[productName] ?? false);
+    });
+  }
+
+  void _addToCartWithSnackbar() {
+    addToCart(current!);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("${current!.name} ajouté au panier"),
+        duration: const Duration(seconds: 1),
+      ),
+    );
+  }
+
+  void _clearCart() {
+    setState(() => cart.clear());
+  }
+
+  void _checkout() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Commande en cours..."),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _selectProductFromSearch(Product product) {
+    _goToDetail(product);
+    _closeSearch();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
+      backgroundColor: Colors.black,
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+        child: Container(
+          width: 390,
+          height: 844,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF5F5F5),
+            borderRadius: BorderRadius.circular(40),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 40,
+                color: Colors.black.withOpacity(.2),
+              )
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(40),
+            child: Stack(
+              children: [
+                // Change la vue selon la navigation
+                IndexedStack(
+                  index: view,
+                  children: [
+                    HomeView(
+                      category: category,
+                      search: search,
+                      products: products,
+                      onCategoryChange: _changeCategory,
+                      onProductTap: _goToDetail,
+                      onSearchOpen: _openSearch,
+                      view: view,
+                      cartLength: cart.length,
+                      onViewChange: (v) => setState(() => view = v),
+                    ),
+                    if (current != null)
+                      DetailView(
+                        product: current!,
+                        isLiked: likedProducts[current!.name] ?? false,
+                        selectedSize: selectedSize,
+                        selectedColor: selectedColor,
+                        onBack: _goToHome,
+                        onLikeTap: () => _toggleLike(current!.name),
+                        onAddToCart: _addToCartWithSnackbar,
+                      ),
+                    CartView(
+                      cart: cart,
+                      onBack: _goToHome,
+                      onClearCart: _clearCart,
+                      onChangeQty: changeQty,
+                      subtotal: getSubtotal(),
+                      delivery: getDelivery(),
+                      onCheckout: _checkout,
+                    ),
+                  ],
+                ),
+                // Affiche la recherche par-dessus les autres vues
+                if (searchOpen)
+                  SearchOverlay(
+                    search: search,
+                    products: products,
+                    onSearchChange: _changeSearch,
+                    onClose: _closeSearch,
+                    onProductTap: _selectProductFromSearch,
+                  ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
